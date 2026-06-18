@@ -42,14 +42,14 @@ class TableController extends Controller
     public function downloadQr(RestaurantTable $table)
     {
         $path = storage_path('app/public/' . $table->qr_code);
-        return response()->download($path, 'qr-table-' . $table->numero . '.png');
+        return response()->download($path, 'qr-table-' . $table->numero . '.svg');
     }
 
     private function generateQr(RestaurantTable $table): void
     {
         $url  = route('client.menu', $table->qr_token);
-        $qr   = QrCode::format('png')->size(400)->margin(2)->generate($url);
-        $path = 'qrcodes/table_' . $table->id . '.png';
+        $qr   = QrCode::format('svg')->size(400)->margin(2)->generate($url);
+        $path = 'qrcodes/table_' . $table->id . '.svg';
         Storage::disk('public')->put($path, $qr);
         $table->update(['qr_code' => $path]);
     }
