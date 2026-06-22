@@ -50,7 +50,8 @@ class CommandeController extends Controller
             }
 
             $url = route('client.commande.confirmation', $commande->id);
-            $qr  = QrCode::format('png')->size(250)->generate($url);
+            $qr  = QrCode::format('svg')->size(250)->generate($url);
+
             $commande->update([
                 'total'           => $total,
                 'qr_confirmation' => base64_encode($qr),
