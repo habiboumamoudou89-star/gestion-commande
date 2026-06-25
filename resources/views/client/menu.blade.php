@@ -77,16 +77,51 @@
         .option-item input { display: none; }
 
         .panier-btn {
-            position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
-            background: var(--primary); color: white; border: none;
-            border-radius: 50px; padding: .9rem 2rem; font-size: 1rem; font-weight: 600;
-            box-shadow: 0 4px 20px rgba(230,126,34,.5);
-            transition: all .2s; z-index: 200; min-width: 260px; display: none;
-        }
-        .panier-btn:hover { background: var(--primary-dark); transform: translateX(-50%) translateY(-2px); }
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: .9rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 20px rgba(230,126,34,.5);
+    transition: all .2s;
+    z-index: 200;
+    min-width: 260px;
+    max-width: 90%;
+    display: none;
+    white-space: nowrap;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.panier-btn:hover {
+    background: var(--primary-dark);
+    transform: translateX(-50%) translateY(-2px);
+}
         .panier-badge { background: white; color: var(--primary); border-radius: 50px; padding: 2px 10px; font-size: .85rem; }
 
-        .offcanvas-bottom { height: auto; max-height: 85vh; border-radius: 20px 20px 0 0; }
+.offcanvas-bottom {
+    height: 70vh !important;
+    width: 60% !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    border-radius: 20px 20px 0 0 !important;
+    transform: translateX(-50%) !important;
+}
+.offcanvas-bottom.show {
+    transform: translateX(-50%) !important;
+}
+.offcanvas-bottom .offcanvas-body {
+    padding: 1rem 1.5rem;
+}
     </style>
 </head>
 <body>
@@ -122,11 +157,12 @@
                      data-options='@json($article->options)'
                      onclick="ouvrirArticle(this)">
                     <div class="img-wrap">
-                        @if($article->image)
-                            <img src="{{ $article->image_url }}" alt="{{ $article->nom }}" loading="lazy">
-                        @else
-                            <div class="img-placeholder"><i class="bi bi-egg-fried"></i></div>
-                        @endif
+                        <div class="img-wrap">
+    <img src="{{ $article->image_url }}"
+         alt="{{ $article->nom }}"
+         loading="lazy"
+         onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=300&fit=crop'">
+</div>
                     </div>
                     <div class="p-2">
                         <div class="fw-semibold small">{{ $article->nom }}</div>
@@ -185,7 +221,10 @@
     <span class="ms-2" id="panierTotal">0.00 MAD</span>
 </button>
 
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasPanier" data-bs-scroll="true">
+<div class="offcanvas offcanvas-bottom"
+     tabindex="-1"
+     id="offcanvasPanier"
+     data-bs-scroll="true">
     <div class="offcanvas-header border-bottom px-4">
         <h5 class="offcanvas-title fw-bold"><i class="bi bi-basket me-2"></i>Mon panier</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
